@@ -71,11 +71,13 @@ class AgentFunction {
 		stench = tp.getStench();
 		scream = tp.getScream();
 		
-		
+		/*
 		if (bump == true || glitter == true || breeze == true || stench == true || scream == true) 
 		{
 			// do something
 		}
+		*/
+		
 		
 		// return action to be performed
 	    return actionTable[rand.nextInt(8)];	    
@@ -85,5 +87,22 @@ class AgentFunction {
 	// do not remove this method
 	public String getAgentName() {
 		return agentName;
+	}
+	
+	public int[] findOp()
+	{
+		int[] Op = new int[2];
+		
+		return Op;
+	}
+	
+	public void g()
+	{
+		
+	}
+	
+	public void h(int type)
+	{
+		
 	}
 }

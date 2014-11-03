@@ -40,8 +40,88 @@ class Simulation {
 	
 	public Simulation(Environment wumpusEnvironment, int maxSteps, boolean nonDeterministic, int heuristic) { 
 		
-	
+		// start the simulator
+		simulationRunning = true;
+		
+		//outputWriter = outWriter;
+		transferPercept = new TransferPercept(wumpusEnvironment);
+		environment = wumpusEnvironment;
+		
+		agent = new Agent(environment, transferPercept, nonDeterministic);
+		
+		environment.placeAgent(agent);
+		environment.printEnvironment();
+		
+		// set initial location of agent
+		setPath();
+		
+		printCurrentPerceptSequence();
+		
+		StateSeq.add(lastAction);
+		
+		try {
+		
+			System.out.println("Current score: " + currScore);
+			//outputWriter.write("Current score: " + currScore + "\n");
+			
+			while (simulationRunning == true) {
+				
+				System.out.println("Last action: " + Action.printAction(lastAction));
+				//outputWriter.write("Last action: " + Action.printAction(lastAction) + "\n");
+				
+				System.out.println("Time step: " + stepCounter);
+				//outputWriter.write("Time step: " + stepCounter + "\n");
+				
+				int action=agent.chooseAction();
+				handleAction(action);
+				
+				StateSeq.add(action);
+				
+				wumpusEnvironment.placeAgent(agent);
+				
+				environment.printEnvironment();		
+							
+				// set agent location 
+				setPath();
+				
+				System.out.println("Current score: " + currScore);
+				//outputWriter.write("Current score: " + currScore + "\n");
+				
+				//Scanner in = new Scanner(System.in);
+				//in.next();
+				
+				stepCounter += 1;
+				
+				if (stepCounter == maxSteps || simulationRunning == false) {
+					System.out.println("Last action: " + Action.printAction(lastAction));
+					//outputWriter.write("Last action: " + Action.printAction(lastAction) + "\n");
+					
+					System.out.println("Time step: " + stepCounter);
+					//outputWriter.write("Time step: " + stepCounter + "\n");
+					
+					lastAction = Action.END_TRIAL;
+					StateSeq.add(lastAction);
+				}
+				
+				if (agent.getHasGold() == true) {
+					System.out.println("\n" + agent.getName() + " found the GOLD!!");
+					//outputWriter.write("\n" + agent.getName() + " found the GOLD!!\n");
+				}
+				if (agent.getIsDead() == true) {
+					System.out.println("\n" + agent.getName() + " is DEAD!!");
+					//outputWriter.write("\n" + agent.getName() + " is DEAD!!\n");	
+				}
+				
+			}
+			
+		}
+		catch (Exception e) {
+			System.out.println("An exception was thrown: " + e);
+		}		
+		
+		printEndWorld();
 	}
+	
 	public String getStateSeq()
 	{
 		String seq=Action.printAction(StateSeq.get(0))+",";
@@ -210,12 +290,13 @@ class Simulation {
 			else if (action == Action.SHOOT) {
 				
 				currScore += shootCost;
-				
-				
+
+				environment.shootArrow();
 				environment.placeAgent(agent);
-				
-				if (environment.getBump() == true) environment.setBump(false);
-				
+
+				if (environment.getBump() == true)
+					environment.setBump(false);
+
 				lastAction = Action.SHOOT;
 			}
 			else if (action == Action.NO_OP) {
@@ -235,6 +316,24 @@ class Simulation {
 		}
 	}
 	
-	
+	public void setPath()
+	{
+		Integer[] location = new Integer[2];
+		location[0] = agent.getLocation()[0];
+		location[1] = agent.getLocation()[1];
+
+		if(path.isEmpty()) // initial location of agent
+		{
+			path.add(location);
+		}
+		else
+		{
+			// new location
+			if(!(path.get(path.size() - 1)[0] == agent.getLocation()[0] && path.get(path.size() - 1)[1] == agent.getLocation()[1]))
+			{
+				path.add(location);
+			}
+		}
+	}
 	
 }
