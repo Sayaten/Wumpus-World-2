@@ -131,8 +131,27 @@ class WorldApplication {
 	public static char[][][] readWumpusWorld(int size, String gameboard) throws Exception {
 		
 		char[][][] newWorld = new char[size][size][4];
-	
-		//4 P,W,G,A
+
+		// 4 P,W,G,A
+		// read map file
+		FileReader fr = new FileReader(gameboard);
+		BufferedReader br = new BufferedReader(fr);
+		String line = null;
+		String room_attri;
+
+		for (int i = size * 3; i > 0; --i) {
+			line = br.readLine();
+			if (i % 3 == 0) {
+				continue;
+			} else {
+				for (int j = 0; j < size; ++j) {
+					room_attri = line.substring(6 * j + 1, 6 * j + 5);
+					newWorld[i / 3][j][(i + 1) % 3] = room_attri.charAt(1);
+					newWorld[i / 3][j][(i + 1) % 3 + 1] = room_attri.charAt(3);
+				}
+			}
+
+		}
 		return newWorld;
 	}
 	
