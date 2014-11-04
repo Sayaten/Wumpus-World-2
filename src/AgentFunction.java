@@ -15,6 +15,7 @@
  * 
  */
 
+import java.util.ArrayList;
 import java.util.Random;
 
 class AgentFunction {
@@ -32,9 +33,13 @@ class AgentFunction {
 	private boolean breeze;
 	private boolean stench;
 	private boolean scream;
-	private Random rand;
+	//private Random rand;
 
-	public AgentFunction()
+	private ArrayList<State> expandState = new ArrayList<State>();
+	private char direction;
+	private int[] location = new int[2];
+	
+	public AgentFunction(char initdirection, int[] initlocation)
 	{
 		// for illustration purposes; you may delete all code
 		// inside this constructor when implementing your 
@@ -54,7 +59,12 @@ class AgentFunction {
 		
 		// new random number generator, for
 		// randomly picking actions to execute
-		rand = new Random();
+		
+		direction = initdirection;
+		location[0] = initlocation[0];
+		location[1] = initlocation[1];
+		
+		//rand = new Random();
 	}
 
 	public int process(TransferPercept tp)
@@ -80,29 +90,14 @@ class AgentFunction {
 		
 		
 		// return action to be performed
-	    return actionTable[rand.nextInt(8)];	    
+	    //return actionTable[rand.nextInt(8)];	    
+		
+		return 1;
 	}
 	
 	// public method to return the agent's name
 	// do not remove this method
 	public String getAgentName() {
 		return agentName;
-	}
-	
-	public int[] findOp()
-	{
-		int[] Op = new int[2];
-		
-		return Op;
-	}
-	
-	public void g()
-	{
-		
-	}
-	
-	public void h(int type)
-	{
-		
 	}
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * Class that defines the environment.
  * 
@@ -31,6 +33,10 @@ class Environment {
 	private boolean bump;
 	private boolean scream;
 	
+	int[] endLocation = new int[2];
+	ArrayList<Integer[]> wumpusLocation = new ArrayList<Integer[]>();
+	ArrayList<Integer[]> pitLocation = new ArrayList<Integer[]>(); 
+	
 	public Environment(int size, char[][][] world) { //, BufferedWriter outWriter) {
 	
 		worldSize = size;
@@ -44,11 +50,33 @@ class Environment {
 		bump = false;
 		scream = false;
 		
+		// 움푸스 및 pit의 위치를 저장할 임시 변수
+		Integer[] tempLocation;
+		
 		// store world definition
 		for (int i = 0; i < worldSize; i++) {
 			for (int j = 0; j < worldSize; j++) {
 				for (int k = 0; k < 4; k++) {
 					wumpusWorld[i][j][k] = world[i][j][k];	
+					if(wumpusWorld[i][j][k] == 'G')
+					{
+						endLocation[0] = i;
+						endLocation[1] = j;
+					}
+					else if(wumpusWorld[i][j][k] == 'P')
+					{
+						tempLocation = new Integer[2];
+						tempLocation[0] = i;
+						tempLocation[1] = j;
+						pitLocation.add(tempLocation);
+					}
+					else if(wumpusWorld[i][j][k] == 'W')
+					{
+						tempLocation = new Integer[2];
+						tempLocation[0] = i;
+						tempLocation[1] = j;
+						wumpusLocation.add(tempLocation);
+					}
 				}
 			}
 		}
@@ -285,7 +313,10 @@ class Environment {
 						if (j+1 < worldSize) percepts[i][j+1][k] = 'S';
 						if (i-1 >= 0) percepts[i-1][j][k] = 'S';
 					}
-					else if (wumpusWorld[i][j][k] == 'G') percepts[i][j][k] = 'G';
+					else if (wumpusWorld[i][j][k] == 'G') 
+					{
+						percepts[i][j][k] = 'G';
+					}
 					
 				}
 			}
@@ -382,5 +413,46 @@ class Environment {
 		catch (Exception e) {
 			System.out.println("An exception was thrown: " + e);
 		}
+	}
+	
+	
+	public int[] getEndLocation()
+	{		
+		return endLocation;
+	}
+	
+	public boolean isEndLocation(int[] location)
+	{
+		if(endLocation[0] == location[0] && endLocation[1] == location[1])
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isWumpus(int[] location)
+	{
+		int count = wumpusLocation.size();
+		for(int i = 0 ; i < count ; i++)
+		{
+			if(wumpusLocation.get(i)[0] == location[0] && wumpusLocation.get(i)[1] == location[1])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isPit(int[] location)
+	{
+
+		int count = pitLocation.size();
+		for(int i = 0 ; i < count ; i++)
+		{
+			if(pitLocation.get(i)[0] == location[0] && pitLocation.get(i)[1] == location[1])
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

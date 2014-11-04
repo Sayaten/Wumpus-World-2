@@ -45,14 +45,16 @@ class Agent {
 		hasGold = false;
 		
 		wumpusWorld = world;
-		agentFunction = new AgentFunction();
+
+		// initial location
+		location = wumpusWorld.getAgentLocation();
+		direction = wumpusWorld.getAgentDirection();
+		
+		agentFunction = new AgentFunction(direction, location);
 		percept = perceptTrans;
 		
 		worldSize = wumpusWorld.getWorldSize();
 		
-		// initial location
-		location = wumpusWorld.getAgentLocation();
-		direction = wumpusWorld.getAgentDirection();
 		setDirection(direction);
 	}
 	
