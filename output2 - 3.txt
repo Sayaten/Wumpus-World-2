@@ -1,0 +1,24 @@
+
+Trial 1 score: 5
+Trial 1 StateSeq: START_TRIAL,1_TURN_RIGHT,2_SHOOT,3_GO_FORWARD,4_GO_FORWARD,5_GRAB,END_TRIAL
+Trial 1 path: (1,2),(2,2),(3,2)
+
+Trial 2 score: 5
+Trial 2 StateSeq: START_TRIAL,1_TURN_RIGHT,2_SHOOT,3_GO_FORWARD,4_GO_FORWARD,5_GRAB,END_TRIAL
+Trial 2 path: (1,2),(2,2),(3,2)
+
+Trial 3 score: 5
+Trial 3 StateSeq: START_TRIAL,1_TURN_RIGHT,2_SHOOT,3_GO_FORWARD,4_GO_FORWARD,5_GRAB,END_TRIAL
+Trial 3 path: (1,2),(2,2),(3,2)
+
+Trial 4 score: 5
+Trial 4 StateSeq: START_TRIAL,1_TURN_RIGHT,2_SHOOT,3_GO_FORWARD,4_GO_FORWARD,5_GRAB,END_TRIAL
+Trial 4 path: (1,2),(2,2),(3,2)
+
+Trial 5 score: 5
+Trial 5 StateSeq: START_TRIAL,1_TURN_RIGHT,2_SHOOT,3_GO_FORWARD,4_GO_FORWARD,5_GRAB,END_TRIAL
+Trial 5 path: (1,2),(2,2),(3,2)
+
+Number of trials: 5
+Total Score: 25
+Average Score: 5.0
