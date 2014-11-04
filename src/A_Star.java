@@ -44,7 +44,7 @@ public class A_Star {
 			
 			for(int i = 1 ; i < expandCount ; i++)
 			{
-				if(expandState.get(i).getF() < lowestF)
+				if(expandState.get(i).getF() <= lowestF)
 				{
 					lowestF = expandState.get(i).getF();
 					lowestI = i;
@@ -71,7 +71,8 @@ public class A_Star {
 			
 			environment.placeAgent(agent);
 			//System.out.println(exploredCount);
-			
+			System.out.println(agent.getLocation()[1] + " " + agent.getLocation()[0]
+					+ " " + exploredState.get(exploredCount).getF());
 			//environment.printEnvironment();
 		}
 		
@@ -115,6 +116,477 @@ public class A_Star {
 		int[] newLocation = new int[2];
 		
 		// 우측 끝에 붙어있음
+		if (agent.getLocation()[1] + 1 == environment.getWorldSize()) {
+			// 상단 끝에 붙어있음
+			if (agent.getLocation()[0] + 1 == environment.getWorldSize()) {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+				
+				expandState.add(new State(newLocation, 'W'));
+				expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+				g();
+				h();
+				expandState.get(expandCount).calculateF();
+					
+				if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+						|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+				{
+					expandState.remove(expandCount);
+				}
+				else
+					expandCount++;
+				
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+				
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			}
+			// 하단 끝에 붙어있음
+			else if (agent.getLocation()[0] == 0) {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+
+				expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			} else {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+
+					expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			}
+		}
+		// 좌측 끝에 붙어있음
+		else if (agent.getLocation()[1] == 0) {
+			// 상단 끝에 붙어있음
+			if (agent.getLocation()[0] + 1 == environment.getWorldSize()) {
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			}
+			// 하단 끝에 붙어있음
+			else if (agent.getLocation()[0] == 0) {
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+
+					expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'E'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			} else {
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+				
+					expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'E'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			}
+		} else {
+			// 상단 끝에 붙어있음
+			if (agent.getLocation()[0] + 1 == environment.getWorldSize()) {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'E'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+			}
+			// 하단 끝에 붙어있음
+			else if (agent.getLocation()[0] == 0) {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'E'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+
+					expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			} else {
+				// 왼쪽 노드
+				newLocation[1] = agent.getLocation()[1] - 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'W'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+				
+				// 오른쪽 노드
+				newLocation[1] = agent.getLocation()[1] + 1;
+				newLocation[0] = agent.getLocation()[0];
+
+					expandState.add(new State(newLocation, 'E'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+					
+				// 윗 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] + 1;
+
+					expandState.add(new State(newLocation, 'N'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+
+				// 아래 노드
+				newLocation[1] = agent.getLocation()[1];
+				newLocation[0] = agent.getLocation()[0] - 1;
+
+					expandState.add(new State(newLocation, 'S'));
+					expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
+					g();
+					h();
+					expandState.get(expandCount).calculateF();
+					
+					if ( (isExplored(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF())
+							|| (isExpanded(expandState.get(expandCount).getLocation(), expandState.get(expandCount).getF()))) ) 
+					{
+						expandState.remove(expandCount);
+					}
+					else
+						expandCount++;
+					
+			}
+		}
+		/*
 				if (agent.getLocation()[1] + 1 == environment.getWorldSize()) {
 					// 상단 끝에 붙어있음
 					if (agent.getLocation()[0] + 1 == environment.getWorldSize()) {
@@ -123,7 +595,7 @@ public class A_Star {
 						newLocation[0] = agent.getLocation()[0];
 						
 						
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -135,7 +607,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
 						
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -150,7 +622,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] - 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -163,7 +635,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -176,7 +648,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] - 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -189,7 +661,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -202,7 +674,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -220,7 +692,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -233,7 +705,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -248,7 +720,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -261,7 +733,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'E')) {
 							expandState.add(new State(newLocation, 'E'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -274,7 +746,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 						
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -287,7 +759,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -300,7 +772,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'E')) {
 							expandState.add(new State(newLocation, 'E'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -316,7 +788,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] - 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -329,7 +801,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'E')) {
 							expandState.add(new State(newLocation, 'E'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -341,7 +813,7 @@ public class A_Star {
 						// 아래 노드
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -357,7 +829,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] - 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -370,7 +842,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'E')) {
 							expandState.add(new State(newLocation, 'E'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -383,7 +855,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -396,7 +868,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] - 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'W')) {
 							expandState.add(new State(newLocation, 'W'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -409,7 +881,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1] + 1;
 						newLocation[0] = agent.getLocation()[0];
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'E')) {
 							expandState.add(new State(newLocation, 'E'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -421,7 +893,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] + 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'N')) {
 							expandState.add(new State(newLocation, 'N'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -434,7 +906,7 @@ public class A_Star {
 						newLocation[1] = agent.getLocation()[1];
 						newLocation[0] = agent.getLocation()[0] - 1;
 
-						if (!isExplored(newLocation)) {
+						if (!isExplored(newLocation, 'S')) {
 							expandState.add(new State(newLocation, 'S'));
 							expandState.get(expandCount).setBefore(exploredState.get(exploredCount));
 							g();
@@ -444,6 +916,8 @@ public class A_Star {
 						}
 					}
 				}
+		*/
+		
 		
 		/*
 		// 우측 끝에 붙어있음
@@ -885,8 +1359,8 @@ public class A_Star {
 		switch(heuristic)
 		{
 		case 1: // 유클리드
-			result = (int)(Math.pow(Math.abs(environment.getEndLocation()[0] - expandState.get(expandCount).getLocation()[0]), 2.0) +
-					+  Math.pow(Math.abs(environment.getEndLocation()[1] - expandState.get(expandCount).getLocation()[1]), 2.0)); 
+			result = (int)(Math.pow((Math.pow(Math.abs(environment.getEndLocation()[0] - expandState.get(expandCount).getLocation()[0]), 2.0) +
+					+  Math.pow(Math.abs(environment.getEndLocation()[1] - expandState.get(expandCount).getLocation()[1]), 2.0)),0.5)); 
 			break;
 		case 2: // 맨하탄
 			result = Math.abs(environment.getEndLocation()[0] - expandState.get(expandCount).getLocation()[0])
@@ -897,11 +1371,40 @@ public class A_Star {
 		expandState.get(expandCount).setH(result);
 	}
 
-	public boolean isExplored(int[] newLocation)
+	/*
+	public boolean isExplored(int[] newLocation, char newDirection)
 	{
 		for(int i = 0 ; i < exploredCount ; ++i)
 		{
-			if(exploredState.get(i).isSameLocation(newLocation))
+			if(exploredState.get(i).isSameLocation(newLocation) && 
+					exploredState.get(i).getDirection() == newDirection)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	*/
+	
+	public boolean isExplored(int[] newLocation, int newF)
+	{
+		for(int i = 0 ; i < exploredCount ; ++i)
+		{
+			if(exploredState.get(i).isSameLocation(newLocation) && 
+					exploredState.get(i).getF() == newF)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isExpanded(int[] newLocation, int newF)
+	{
+		for(int i = 0 ; i < expandCount ; ++i)
+		{
+			if(expandState.get(i).isSameLocation(newLocation) && 
+					expandState.get(i).getF() == newF)
 			{
 				return true;
 			}
